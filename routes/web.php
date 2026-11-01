@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\TrackVisit;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\{ProductController, LeadController, HomeController};
 
@@ -26,3 +27,21 @@ Route::middleware(TrackVisit::class)->group(function () {
 
 
 require __DIR__.'/admin.php';
+
+Route::get('/test-ip', function (Illuminate\Http\Request $request) {
+    $ip = $request->ip();
+
+    $location = Http::get("https://ipwho.is/{$ip}")->json();
+
+    return [
+        'ip' => $ip,
+        'country' => $location['country'] ?? null,
+        'country_code' => $location['country_code'] ?? null,
+        'region' => $location['region'] ?? null,
+        'city' => $location['city'] ?? null,
+        'latitude' => $location['latitude'] ?? null,
+        'longitude' => $location['longitude'] ?? null,
+        'timezone' => $location['timezone']['id'] ?? null,
+        'isp' => $location['connection']['isp'] ?? null,
+    ];
+});
