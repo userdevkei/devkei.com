@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-// app/Http/Controllers/ProductController.php
 class ProductController extends Controller
 {
     public function index()

@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class QuoteRequest extends Model
 {
     use HasCommonId, softDeletes;
-    protected $fillable = ['product_id','name','email','phone','organization',
+
+    protected $keyType = 'string';
+    protected $fillable = ['id', 'product_id','name','email','phone','organization',
         'organization_type','user_count','hosting_preference','requirements',
         'budget_range','status','ip_address'];
 

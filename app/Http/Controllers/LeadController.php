@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewDemoRequest;
+use App\Mail\NewQuoteRequest;
 use App\Models\DemoRequest;
 use App\Models\Product;
 use App\Models\QuoteRequest;
+use App\Support\Analytics\Attribution;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 
 class LeadController extends Controller
 {
@@ -27,7 +32,7 @@ class LeadController extends Controller
 
     public function storeDemo(Request $request)
     {
-        // Honeypot: bots fill hidden "website" field
+        // Honeypot: bots fill the hidden "website" field.
         if ($request->filled('website')) {
             return $this->ok($request, 'Thanks, we will be in touch.');
         }
@@ -44,9 +49,9 @@ class LeadController extends Controller
             'message'           => ['nullable', 'string', 'max:2000'],
         ]);
 
-        $demo = DemoRequest::create($data + ['ip_address' => $request->ip()]);
-
-        // Mail::to(config('mail.admin'))->queue(new NewDemoRequest($demo));
+        $demo = (new DemoRequest)->forceFill($data + ['ip_address' => $request->ip()] + Attribution::for($request));
+        $demo->save();
+        $this->notify(new NewDemoRequest($demo->load('product')));
 
         return $this->ok($request, 'Demo request received. We will confirm your slot shortly.');
     }
@@ -70,11 +75,27 @@ class LeadController extends Controller
             'budget_range'       => ['nullable', 'string', 'max:50'],
         ]);
 
-        $quote = QuoteRequest::create($data + ['ip_address' => $request->ip()]);
+        $quote = (new QuoteRequest)->forceFill($data + ['ip_address' => $request->ip()] + Attribution::for($request));
+        $quote->save();
+        $this->notify(new NewQuoteRequest($quote->load('product')));
 
-        // Mail::to(config('mail.admin'))->queue(new NewQuoteRequest($quote));
+        return $this->ok($request, 'Quote request received. We reply within one business day.');
+    }
 
-        return $this->ok($request, 'Quote request received. Expect a response within 1 business day.');
+    /** A mail failure must never lose or block the lead: it is already saved. */
+    private function notify(Mailable $mail): void
+    {
+        $to = config('devkei.notify_email');
+
+        if (! $to) {
+            return;
+        }
+
+        try {
+            Mail::to($to)->send($mail);
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 
     private function ok(Request $request, string $message)

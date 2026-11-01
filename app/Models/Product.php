@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasCommonId, SoftDeletes;
-    protected $fillable = ['name','slug','tagline','summary','description','category',
+    protected $keyType = 'string';
+    protected $fillable = ['id', 'name','slug','tagline','summary','description','category',
         'image','features','modules','is_featured','is_active','sort_order'];
 
     protected $casts = ['features' => 'array', 'modules' => 'array',
