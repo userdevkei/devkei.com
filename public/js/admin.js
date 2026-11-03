@@ -43,6 +43,18 @@
     });
   });
 
+    $.extend(true, $.fn.dataTable.defaults, {
+        autoWidth: false,
+        dom: "<'dt-top'<'dt-left'l><'dt-right'Bf>>r" +
+            "<'table-responsive't>" +
+            "<'dt-bottom'ip>"
+    });
+
+// Adds the classes to every table before it initialises
+    $(document).on('preInit.dt', function (e, settings) {
+        $(settings.nTable).addClass('table table-striped table-sm fs-sm');
+    });
+
   // DataTables: <table class="dt" data-config='{...}'>
   const tables = {};
   if ($ && $.fn.DataTable) {

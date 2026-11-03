@@ -74,7 +74,7 @@
     </section>
     <section class="card">
         <header class="card-head"><h2>Cities</h2></header>
-        @include('admin.analytics._bars', ['rows' => $cities, 'total' => max(1, $s['visits']), 'empty' => 'City data needs the optional GeoLite2 database (see README).'])
+        @include('admin.analytics._bars', ['rows' => $cities, 'total' => max(1, $s['visits']), 'empty' => 'City data needs the optional GeoLite2 database.'])
     </section>
 </div>
 

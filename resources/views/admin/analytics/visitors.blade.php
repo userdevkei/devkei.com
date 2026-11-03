@@ -12,13 +12,13 @@
         data-config="{{ json_encode([
             'serverSide' => true,
             'ajax' => route('admin.analytics.visitors.data', request()->only('range', 'from', 'to')),
-            'columns' => 8,
+            'columns' => 9,
             'order' => [[0, 'desc']],
             'export' => false,
             'pageLength' => 25,
-        ]) }}">
+        ]) }}" >
         <thead>
-            <tr><th>Time</th><th>Page</th><th>Source</th><th>Location</th><th>Device</th><th>Browser</th><th>System</th><th>Visitor</th></tr>
+            <tr><th>#</th><th>Time</th><th>Page</th><th>Source</th><th>Location</th><th>Device</th><th>Browser</th><th>System</th><th>Visitor</th></tr>
         </thead>
     </table>
 </section>

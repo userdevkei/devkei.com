@@ -93,18 +93,30 @@ class AnalyticsController extends Controller
             'draw' => (int) $request->input('draw'),
             'recordsTotal' => $total,
             'recordsFiltered' => $filtered,
-            'data' => $rows->map(fn ($r) => [
-                e($r->created_at->format('d M Y, H:i')),
-                '<code>' . e($r->path) . '</code>',
-                $r->is_entry
-                    ? e($r->source ?: 'Direct') . '<small>' . e($r->medium) . '</small>'
-                    : '<span class="muted">Internal</span>',
-                e(trim(($r->country_code ? PageView::countryName($r->country_code) : 'Unknown') . ($r->city ? ', ' . $r->city : ''))),
-                e(ucfirst((string) $r->device_type)),
-                e($r->browser),
-                e($r->os),
-                $r->is_new ? '<span class="badge badge-blue">New</span>' : '<span class="badge badge-gray">Returning</span>',
-            ])->all(),
+            'data' => $rows->values()->map(function ($r, $index) use ($request) {
+                $number = (int) $request->input('start', 0) + $index + 1;
+
+                return [
+                    $number,
+                    e($r->created_at->format('d M Y, H:i')),
+                    '<code>' . e($r->path) . '</code>',
+                    $r->is_entry
+                        ? e($r->source ?: 'Direct') . '<small>' . e($r->medium) . '</small>'
+                        : '<span class="muted">Internal</span>',
+                    e(
+                        trim(
+                            ($r->country_code ? PageView::countryName($r->country_code) : 'Unknown')
+                            . ($r->city ? ', ' . $r->city : '')
+                        )
+                    ),
+                    e(ucfirst((string) $r->device_type)),
+                    e($r->browser),
+                    e($r->os),
+                    $r->is_new
+                        ? '<span class="badge badge-blue">New</span>'
+                        : '<span class="badge badge-gray">Returning</span>',
+                ];
+            })->all(),
         ]);
     }
 
