@@ -66,7 +66,7 @@
         <main class="admin-main">
             <div class="page-head-admin">
                 <div>
-                    <h1>@yield('heading')</h1>
+                    <h3>@yield('heading')</h3>
                     @hasSection('subtitle')<p>@yield('subtitle')</p>@endif
                 </div>
                 <div class="page-actions">@yield('actions')</div>

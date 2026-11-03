@@ -61,8 +61,8 @@
     document.querySelectorAll('table.dt').forEach(el => {
       const cfg = parse(el.dataset.config, {});
       const opts = {
-        pageLength: cfg.pageLength || 25,
-        lengthMenu: [10, 25, 50, 100],
+        pageLength: cfg.pageLength || 100,
+        lengthMenu: [10, 25, 50, 100, 250, 500, 1000, 5000, 10000],
         order: cfg.order || [],
         autoWidth: false,
         dom: '<"dt-top"<"dt-left"l><"dt-right"fB>>rt<"dt-bottom"ip>',

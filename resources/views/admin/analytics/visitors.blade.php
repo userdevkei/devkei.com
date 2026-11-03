@@ -15,7 +15,7 @@
             'columns' => 9,
             'order' => [[0, 'desc']],
             'export' => false,
-            'pageLength' => 25,
+            'pageLength' => 100,
         ]) }}" >
         <thead>
             <tr><th>#</th><th>Time</th><th>Page</th><th>Source</th><th>Location</th><th>Device</th><th>Browser</th><th>System</th><th>Visitor</th></tr>
