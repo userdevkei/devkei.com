@@ -1,14 +1,14 @@
 (() => {
   const $ = window.jQuery;
   const parse = (value, fallback) => { try { return JSON.parse(value); } catch { return fallback; } };
-
-  // Mobile sidebar
-  const side = document.getElementById('admin-side');
-  const backdrop = document.querySelector('.side-backdrop');
-  const setSide = open => { side.classList.toggle('is-open', open); backdrop.hidden = !open; };
-  document.querySelector('[data-side-toggle]')?.addEventListener('click', () => setSide(true));
-  backdrop?.addEventListener('click', () => setSide(false));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') setSide(false); });
+  //
+  // // Mobile sidebar
+  // const side = document.getElementById('admin-side');
+  // const backdrop = document.querySelector('.side-backdrop');
+  // const setSide = open => { side.classList.toggle('is-open', open); backdrop.hidden = !open; };
+  // document.querySelector('[data-side-toggle]')?.addEventListener('click', () => setSide(true));
+  // backdrop?.addEventListener('click', () => setSide(false));
+  // document.addEventListener('keydown', e => { if (e.key === 'Escape') setSide(false); });
 
   // Toasts
   const icons = {
