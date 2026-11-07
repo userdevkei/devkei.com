@@ -228,3 +228,59 @@ table.dataTable td small{margin-top:.1rem}
   .facts-list div,.timeline li{grid-template-columns:1fr;gap:.15rem}
   .dataTables_filter input{min-width:0;width:100%}
 }
+
+/* Sidebar toggle */
+.menu-btn{display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:8px;background:none;color:var(--ink);cursor:pointer}
+.menu-btn:hover{background:#EEF3FB}
+.admin-side{transition:flex-basis .2s,padding .2s,transform .2s}
+.side-backdrop[hidden]{display:none}
+@media (min-width:961px){
+    body.sidebar-collapsed .admin-side{flex-basis:0;width:0;padding-left:0;padding-right:0;overflow:hidden}
+}
+
+/* Stop grid children forcing overflow */
+.admin-main{grid-template-columns:minmax(0,1fr)}
+.admin-main>*,.card,.grid-main>*,.grid-2>*,.grid-3>*,.grid-side>*,.kpi-grid>*{min-width:0}
+
+/* Small screens */
+@media (max-width:640px){
+    .admin-topbar{height:56px;gap:.5rem;padding:0 .75rem}
+    .live-chip{padding:.3rem .6rem;font-size:.82rem}
+    .admin-main{padding:.75rem;gap:1rem}
+    .card{padding:1rem}
+    .card-head{flex-wrap:wrap}
+    .page-head-admin{align-items:stretch}
+    .page-head-admin h1{font-size:1.4rem}
+    .page-actions{width:100%}
+    .page-actions .btn,.page-actions form{flex:1 1 auto}
+    .range,.seg{width:100%}
+    .seg{overflow-x:auto}
+    .seg a{flex:1;text-align:center;white-space:nowrap}
+    .range input[type="date"]{flex:1;min-width:0}
+    .kpi-value{font-size:1.5rem}
+    .chart-box{height:240px}
+    .admin .form-grid{grid-template-columns:1fr}
+    .dialog{padding:1.1rem}
+    .dialog-actions{flex-direction:column-reverse}
+    .dialog-actions .btn{width:100%}
+    #toast-root{left:.75rem;right:.75rem;width:auto}
+}
+
+/* DataTables responsive */
+table.dataTable td,table.dataTable th{white-space:nowrap}
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control{padding-left:2.1rem}
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{background-color:var(--color-gray-500);border:0;box-shadow:none;left:.7rem}
+table.dataTable>tbody>tr.child td.child{white-space:normal;padding:.4rem 1rem .8rem;background:#F8FAFD}
+table.dataTable>tbody>tr.child ul.dtr-details{display:block;width:100%;margin:0;padding:0;list-style:none}
+table.dataTable>tbody>tr.child ul.dtr-details>li{display:flex;justify-content:space-between;gap:1rem;padding:.4rem 0;border-bottom:1px solid #EDF1F7}
+table.dataTable>tbody>tr.child ul.dtr-details>li:last-child{border-bottom:0}
+table.dataTable>tbody>tr.child span.dtr-title{font-weight:600;color:var(--muted)}
+table.dataTable>tbody>tr.child span.dtr-data{text-align:right;overflow-wrap:anywhere}
+@media (max-width:640px){
+    .dataTables_wrapper{padding:.75rem}
+    .dt-top,.dt-top .dt-right{flex-direction:column;align-items:stretch}
+    .dataTables_filter input{width:100%;min-width:0}
+    .dt-buttons{flex-wrap:wrap}
+    .dataTables_info,.dataTables_paginate{float:none!important;text-align:center!important}
+    .dataTables_wrapper .dataTables_paginate .paginate_button{padding:.3rem .6rem!important}
+}

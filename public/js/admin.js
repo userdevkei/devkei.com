@@ -45,6 +45,9 @@
 
     $.extend(true, $.fn.dataTable.defaults, {
         autoWidth: false,
+        responsive: { details: { type: 'inline' } },
+        pagingType: window.innerWidth < 640 ? 'simple' : 'simple_numbers',
+        language: { search: '', searchPlaceholder: 'Search…', lengthMenu: 'Show _MENU_' },
         dom: "<'dt-top'<'dt-left'l><'dt-right'Bf>>r" +
             "<'table-responsive't>" +
             "<'dt-bottom'ip>"

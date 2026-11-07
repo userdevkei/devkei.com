@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Young+Serif&display=swap">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('css/devkei.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v=2">
     @stack('head')
@@ -96,8 +97,58 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 @stack('vendor')
 <script src="{{ asset('js/admin.js') }}?v=2"></script>
 @stack('scripts')
+
+<script>
+    (function () {
+        var KEY = 'devkei.sidebar';
+        var mq = window.matchMedia('(max-width: 960px)');
+        var body = document.body;
+
+        function side() { return document.querySelector('.admin-side'); }
+        function backdrop() {
+            var b = document.querySelector('.side-backdrop');
+            if (!b) {
+                b = document.createElement('div');
+                b.className = 'side-backdrop';
+                b.hidden = true;
+                document.body.appendChild(b);
+            }
+            return b;
+        }
+        function closeMobile() {
+            var s = side();
+            if (s) s.classList.remove('is-open');
+            backdrop().hidden = true;
+        }
+
+        try {
+            if (!mq.matches && localStorage.getItem(KEY) === '1') body.classList.add('sidebar-collapsed');
+        } catch (e) {}
+
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.menu-btn')) {
+                e.preventDefault();
+                var s = side();
+                if (!s) return;
+                if (mq.matches) {
+                    var open = s.classList.toggle('is-open');
+                    backdrop().hidden = !open;
+                } else {
+                    var c = body.classList.toggle('sidebar-collapsed');
+                    try { localStorage.setItem(KEY, c ? '1' : '0'); } catch (e2) {}
+                }
+                return;
+            }
+            if (e.target.closest('.side-backdrop') || (mq.matches && e.target.closest('.admin-side a'))) closeMobile();
+        });
+
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMobile(); });
+        if (mq.addEventListener) mq.addEventListener('change', closeMobile); else mq.addListener(closeMobile);
+    })();
+</script>
 </body>
 </html>
