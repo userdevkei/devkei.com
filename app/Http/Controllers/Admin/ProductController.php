@@ -105,7 +105,7 @@ class ProductController extends Controller
             ->all();
     }
 
-    private function uniqueSlug(string $base, ?int $ignoreId = null): string
+    private function uniqueSlug(string $base, ?string $ignoreId = null): string
     {
         $slug = Str::slug($base) ?: 'product';
         $candidate = $slug;
